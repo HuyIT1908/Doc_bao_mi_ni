@@ -37,17 +37,20 @@ public class MainActivity extends AppCompatActivity {
     String link = "https://vtc.vn/rss/thoi-su.rss";
     String link_2 = "https://vtv.vn/trong-nuoc/xa-hoi.rss";
     List<Tin_tuc> tin_tucList;
-
+    String[] the_loai;
     Button btn_show;
+    TextView tv_size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tv_size = findViewById(R.id.tv_size);
         btn_show = findViewById(R.id.btn_show);
         tin_tucList = new ArrayList<>();
         lv_tin_tuc = findViewById(R.id.lv_tin_tuc);
+        the_loai = getResources().getStringArray(R.array.the_loai);
 
         lv_tin_tuc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+        show_tin_tuc(link , "Thời sự VTC");
     }
 
     public void test_data(String link){
@@ -146,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 event = xmlPullParser.next();
             }
             Log.e("----------------------" , " " + tin_tucList.size() + "\t\n\t\t Finish");
-
+            tv_size.setText("Tổng :  " + tin_tucList.size() + " Tin và bài viết");
         } catch (MalformedURLException e) {
             Log.e("Error 1 :  " , String.valueOf(e.getMessage()));
 //            e.printStackTrace();
@@ -167,11 +171,45 @@ public class MainActivity extends AppCompatActivity {
 
         NetworkInfo mobile_3g =
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
         if (mobile_3g.isConnected() || wifi.isConnected()){
 
             Toast.makeText(getApplicationContext() , "wifi or 3G/4G  Connected",
                     Toast.LENGTH_SHORT).show();
-            show(link_2);
+//            show(link_2);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Đọc báo theo chủ đề !!!");
+            builder.setCancelable(false);
+
+            builder.setItems(the_loai, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (the_loai[which].equalsIgnoreCase("Thời sự VTC")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc(link , "Thời sự VTC");
+                    } else if (the_loai[which].equalsIgnoreCase("Xã hội VTV")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc(link_2 , "Xã hội VTV");
+                    } else if (the_loai[which].equalsIgnoreCase("Tin công nghệ VTV")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc("https://vtv.vn/cong-nghe.rss" , "Tin công nghệ VTV");
+                    } else if (the_loai[which].equalsIgnoreCase("Tin công nghệ VTC")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc("https://vtc.vn/rss/khoa-hoc-cong-nghe.rss" , "Tin công nghệ VTC");
+                    } else if (the_loai[which].equalsIgnoreCase("Vnexpress khoa học")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc("https://vnexpress.net/rss/khoa-hoc.rss" , "Vnexpress khoa học");
+                    } else if (the_loai[which].equalsIgnoreCase("Tư Vấn công nghệ VTV")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc("https://vtv.vn/cong-nghe/tu-van.rss" , "Tư Vấn công nghệ VTV");
+                    } else if (the_loai[which].equalsIgnoreCase("VietNamNet Công nghệ")){
+                        Toast.makeText(getApplicationContext() , the_loai[which] ,Toast.LENGTH_SHORT).show();
+                        show_tin_tuc("https://vietnamnet.vn/rss/cong-nghe.rss" , "VietNamNet Công nghệ");
+                    }
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Notifycation").setMessage("Vui lòng bật 3G/4G hoặc Wifi để xem được tin tức");
@@ -187,35 +225,8 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
     }
-    public void load_data_2(View view){
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifi =
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        NetworkInfo mobile_3g =
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (mobile_3g.isConnected() || wifi.isConnected()){
-
-            Toast.makeText(getApplicationContext() , "wifi or 3G/4G  Connected",
-                    Toast.LENGTH_SHORT).show();
-            show(link);
-        }else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Notifycation").setMessage("Vui lòng bật 3G/4G hoặc Wifi để xem được tin tức");
-            builder.setCancelable(false);
-            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
-    public void show(String link){
+    public void show_tin_tuc(String link , String rss_name){
         tin_tucList.clear();
         Log.e("-----------------------" , "vao luong phu 1111111111111");
         //      tạo luồng phụ xử lí
@@ -234,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 //                khai bao adapter
 //                Log.e("getId :  " + tin_tucList.get(0).getId() ,"getTitle :  " + tin_tucList.get(0).getTitle());
 //                Log.e("\n getDes :  " + tin_tucList.get(0).getDes() , "\n getPubDate :  " + tin_tucList.get(0).getPubDate());
-                TinTuc_Adapter adapter = new TinTuc_Adapter(MainActivity.this , tin_tucList);
+                TinTuc_Adapter adapter = new TinTuc_Adapter(MainActivity.this , tin_tucList , rss_name);
 //                bo array vao adapter
 //                set adapter cho listview
                 adapter.notifyDataSetChanged();

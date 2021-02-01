@@ -18,15 +18,19 @@
             android:id="@+id/tv_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="monospace"
             android:text="TextView"
-            android:textSize="14sp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="More Fonts..."
             android:gravity="center_horizontal"
             android:text="TextView"
             android:textSize="24sp"
@@ -43,7 +47,7 @@
             android:id="@+id/tv_pubDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="right"
             android:text="TextView"
             android:textSize="18sp" />

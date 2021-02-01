@@ -12,10 +12,12 @@ import java.util.List;
 public class TinTuc_Adapter extends BaseAdapter {
     Context context;
     List<Tin_tuc> tin_tucList;
+    String rss_name;
 
-    public TinTuc_Adapter(Context context, List<Tin_tuc> tin_tucList) {
+    public TinTuc_Adapter(Context context, List<Tin_tuc> tin_tucList, String rss_name) {
         this.context = context;
         this.tin_tucList = tin_tucList;
+        this.rss_name = rss_name;
     }
 
     @Override
@@ -57,11 +59,15 @@ public class TinTuc_Adapter extends BaseAdapter {
             viewHoler = (ViewHoler) convertView.getTag();
         }
 //        viewHoler.tv_link.setText(tin_tucList.get(position).getLink());
-        viewHoler.tv_link.setText("");
+        viewHoler.tv_link.setText(rss_name);
+
         viewHoler.tv_title.setText(tin_tucList.get(position).getTitle());
+
 //        viewHoler.tv_des.setText(tin_tucList.get(position).getDes());
         viewHoler.tv_des.setText("");
+
         viewHoler.tv_pubDate.setText(tin_tucList.get(position).getPubDate());
+
         return convertView;
     }
 
