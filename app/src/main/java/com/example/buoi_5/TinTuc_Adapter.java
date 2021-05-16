@@ -1,11 +1,15 @@
 package com.example.buoi_5;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,6 +43,7 @@ public class TinTuc_Adapter extends BaseAdapter {
         TextView tv_title;
         TextView tv_des;
         TextView tv_pubDate;
+        ImageView img_tin_tuc;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -53,6 +58,7 @@ public class TinTuc_Adapter extends BaseAdapter {
             viewHoler.tv_title = convertView.findViewById(R.id.tv_title);
             viewHoler.tv_des = convertView.findViewById(R.id.tv_des);
             viewHoler.tv_pubDate = convertView.findViewById(R.id.tv_pubDate);
+//            viewHoler.img_tin_tuc = convertView.findViewById(R.id.imv_tin_tuc);
 
             convertView.setTag(viewHoler);
         }else {
@@ -68,6 +74,16 @@ public class TinTuc_Adapter extends BaseAdapter {
 
         viewHoler.tv_pubDate.setText(tin_tucList.get(position).getPubDate());
 
+/*        try {
+            Picasso.with(context)
+                    .load("https://banner2.cleanpng.com/20180711/cyx/kisspng-smiley-computer-icons-pero-5b46cd0ce6c057.5018290915313666689452.jpg")
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(viewHoler.img_tin_tuc);
+            Log.e("\t\t---------------------" , "\t\t\t da load anh ");
+        } catch (Exception ex){
+            Log.e("\t\t---------------------" , ex.toString());
+        }*/
         return convertView;
     }
 

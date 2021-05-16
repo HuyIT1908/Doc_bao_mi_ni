@@ -6,16 +6,18 @@ public class Tin_tuc {
     String des;
     String pubDate;
     String link;
+    String img_Path;
 
     public Tin_tuc() {
     }
 
-    public Tin_tuc(String id, String title, String des, String pubDate, String link) {
+    public Tin_tuc(String id, String title, String des, String pubDate, String link, String img_Path) {
         this.id = id;
         this.title = title;
         this.des = des;
         this.pubDate = pubDate;
         this.link = link;
+        this.img_Path = img_Path;
     }
 
     public String getId() {
@@ -56,5 +58,13 @@ public class Tin_tuc {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getImg_Path() {
+        return img_Path;
+    }
+
+    public void setImg_Path(String img_Path) {
+        this.img_Path = img_Path;
     }
 }

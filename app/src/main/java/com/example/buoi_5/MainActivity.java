@@ -3,6 +3,8 @@ package com.example.buoi_5;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,6 +81,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                builder.setNeutralButton("Lấy link", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboardManager =
+                                (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+//                        clipboardManager.setPrimaryClip(ClipData.newRawUri("URI" ,
+//                                Uri.parse(tin_tucList.get(position).getLink())));
+                        clipboardManager.setPrimaryClip(ClipData.newPlainText("URL" ,
+                                tin_tucList.get(position).getLink()));
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+
+                        builder1.setTitle("Thông báo").setMessage("Đã sao chép đường dẫn bài viết");
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog1 = builder1.create();
+                        dialog1.show();
+                    }
+                });
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -140,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
                                 tin_tuc.pubDate = text;
                             }
 
+
+
                             if (tag.equalsIgnoreCase("item")){
                                 tin_tucList.add(tin_tuc);
                             }
@@ -179,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
 //            show(link_2);
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Đọc báo theo chủ đề !!!");
-            builder.setCancelable(false);
 
             builder.setItems(the_loai, new DialogInterface.OnClickListener() {
                 @Override
